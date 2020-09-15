@@ -74,7 +74,7 @@ void selectTime() {
     if (buttonState == HIGH){
         currentState = COUNTDOWN;
     }
-    potVal = round(analogRead(potPin));
+    potVal = round(analogRead(potPin)/100);
     if (potVal != currentVal) {
         lcd.clear();
         lcd.setCursor(0, 0); // Sets the cursor to col 0 and row 0
