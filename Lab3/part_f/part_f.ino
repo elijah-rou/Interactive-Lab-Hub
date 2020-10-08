@@ -1,94 +1,90 @@
 #include <Servo.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
-// Components
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+
+// initialize the library with the numbers of the interface pins
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 Servo servo;
-const int piezo = A0;
-const int switchPin = 2;
-const int yellow = 3;
-const int green = 4;
-const int red = 5;
+int encoderA = 6;
+int encoderB = 7;
 
-// Knock thresholds
-const int quietKnock = 20;
-const int loudKnock = 200;
+int servoPin = 5;
+int servoPos = 0;
 
-// Variables to store state
-int knockValue;
-int switchValue;
-boolean locked = false;
-int numberOfKnocks = 0;
-
-void setup(void){
-    // Setup Pins for components
-    servo.attach(9);
-    pinMode(switchPin, INPUT);
-    pinMode(yellow, OUTPUT);
-    pinMode(green, OUTPUT);
-    pinMode(red, OUTPUT);
-
-    Serial.begin(9600);
-
-    // Light green led and set servo to 0
-    digitalWrite(green, HIGH);
-    servo.write(0);
-
-    Serial.println("UNLOCKED");
+/* returns change in encoder state (-1,0,1) */
+int read_encoder(){
+    static int enc_states[] = {
+        0,-1,1,0,1,0,0,-1,-1,0,0,1,0,1,-1,0  };
+    static byte ABab = 0;
+    ABab *= 4;                   //shift the old values over 2 bits
+    ABab = ABab%16;      //keeps only bits 0-3
+    ABab += 2*digitalRead(encoderA)+digitalRead(encoderB); //adds enc_a and enc_b values to bits 1 and 0
+    return (enc_states[ABab]);
 }
 
-boolean checkForKnock(int piezoReading){
-    if(piezoReading > quietKnock && piezoReading < loudKnock){
-        digitalWrite(yellow, HIGH);
-        delay(100);
-        digitalWrite(yellow, LOW);
-        Serial.print("Knock read: ");
-        Serial.println(piezoReading);
-        return true;
+void setup() {
+    Serial.begin(115200);
+    if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+        Serial.println("SSD1306 allocation failed");
+        for(;;); // Don't proceed, loop forever
     }
     else{
-        Serial.print("Bad read: ");
-        Serial.println(piezoReading);
-        return false;
+        Serial.println("OLED initialized");
     }
+    delay(2000);
+    // Set Servo
+    servo.attach(5);
+    servo.write(0);
 
+    // Set Rotary
+    pinMode(encoderA, INPUT_PULLUP);
+    pinMode(encoderB, INPUT_PULLUP);
+
+    // Set Display
+    display.clearDisplay();
+    display.setTextSize(2);
+    display.setTextColor(WHITE);
+    display.setCursor(0,10); 
+    display.println("A Box!");
+    display.display();
+    delay(2000);
+    display.clearDisplay();
+    display.setCursor(0,10); 
+    display.print("Value: 0");
+    display.display();
+    
 }
 
-void loop(void){
-    // If the box is currently unlocked read the switch
-    if(locked == false){
-        switchValue = digitalRead(switchPin);
-
-        // If the switch is engaged lock the box
-        if(switchValue == HIGH){
-            locked = true;
-            digitalWrite(green, LOW);
-            digitalWrite(red, HIGH);
-            servo.write(90);
-            Serial.println("LOCKED");
-            delay(1000);
+void loop() {
+    static unsigned int counter4x = 0;      //the SparkFun encoders jump by 4 states from detent to detent
+    static unsigned int counter = 0;
+    static unsigned int prevCounter = 0;
+    int data;
+    data = read_encoder();
+    if(data){
+        counter4x += data;
+        counter = counter4x/4;
+        if (prevCounter != counter){
+            display.clearDisplay();
+            display.setCursor(0,10); 
+            display.print("Value: ");
+            display.println(counter);
+            display.display();
         }
+        prevCounter = counter;
     }
-
-    // If locked read the piezo
-    if(locked == true){
-        knockValue = analogRead(piezo);
-        if(numberOfKnocks < 3 && knockValue > 0){
-            if(checkForKnock(knockValue) == true){
-                numberOfKnocks++;
-            }
-        }
-        //Serial.print(3-numberOfKnocks);
-        //Serial.println(" knocks to go");
+    if(counter > 1700){
+        counter = 0;
     }
-
-    // Unlock if the number of knocks is 3
-    if(numberOfKnocks >= 3){
-        locked = false;
-        servo.write(0);
-        delay(20);
-        digitalWrite(green, HIGH);
-        digitalWrite(red, LOW);
-        numberOfKnocks = 0;
-        Serial.println("UNLOCKED");
+    else if(counter > 160){
+        counter=160;
     }
-
+    else{
+        servo.write(counter);
+    }
+    
 }

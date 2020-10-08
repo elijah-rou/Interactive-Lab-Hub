@@ -1,10 +1,6 @@
 
 # Motors, Power, Paper Prototyping
 
-## Part A. Actuating DC motors
-
-TODO
-
 ## Part B. Actuating Servo motors
 
 ### Part 1. Connect the Servo to your breadboard
@@ -23,7 +19,7 @@ Pin 9.
 
 **b. What aspects of the Servo code control angle or speed?**
 
-Angle is controlled by pos
+Angle is controlled by pos, speed can be controlled by either decreasing delay or increasing increment size in the loop! (I used delay)
 
 ```python
 /* Sweep
@@ -94,19 +90,7 @@ void loop() {
 ## Part D. Autonomy!
 See media/part_d.mov!
 
-## Part E. Paper display
+## Part E. Paper display + Part F. Make it your own
+Due to my move, I had to combine E & F into a single design! The servo arm will measure how boxy this box is, according to how the rotary is set.
 
-
-**a. Make a video of your paper display in action.**
-
-## Part F. Make it your own
-
-Now modify this set up to make this your own design. 
-
-Use paper to build a paper template. Use an Olfa knifes to cut out your pattern, and glue or tape to put it together. <!--If you'd like to use the paper cutter, [here's how](https://github.com/FAR-Lab/Developing-and-Designing-Interactive-Devices/wiki/How-to-use-the-Silhouette-Cameo-Cutter).-->
-
-You can create a game, you can enact a pre-programmed mini puppet show, or you can visualize data in a new way.
-
-<!--If your design involves having someone controlling the puppet in real time (e.g. using sensors), please film that happening. Otherwise, film the puppet performing it's moves. -->
-
-**a. Make a video of your final design in action.**
+See media/part_f.mov!
