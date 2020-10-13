@@ -1,7 +1,7 @@
 #define VAR_RES A0
-#define RED 5
-#define GREEN 3
-#define BLUE 2
+#define RED 6
+#define GREEN 5
+#define BLUE 3
 
 void setup(){
     Serial.begin(9600);
@@ -25,15 +25,12 @@ void loop(){
     Serial.println(255-res_value%256);
     Serial.println();
     if(res_value <= 255){
-        setColor(0, 0, 0);
-    }
-    else if(res_value < 511){
         setColor(0, res_value%256, 255-res_value%256);
     }
-    else if(res_value < 767){
+    else if(res_value < 511){
         setColor(res_value%256, 255-res_value%256, 0);
     }
-    else if(res_value < 1023){
+    else if(res_value < 767){
         setColor(255-res_value%256, 0, res_value%256);
     }
     // delay(1000);
