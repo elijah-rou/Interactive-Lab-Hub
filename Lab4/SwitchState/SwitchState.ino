@@ -25,7 +25,8 @@ const int sensorMin =0;
 const int sensorMax = 1024;
 const int EEPROMSIZE=1024;
 
-int sensorPin = 0;    // select the input pin for the potentiometer
+int potPin = A0;    // select the input pin for the potentiometer
+int sensorPin = A1; // . FSR
 int ledPin = LED_BUILTIN;    
 int state,lastState = -1;
 
@@ -33,11 +34,14 @@ void setup() {
   // initialize serial communication:
   Serial.begin(9600);  
   pinMode(ledPin, OUTPUT);  
+  pinMode(potPin, INPUT);
+  pinMode(sensorPin, INPUT);
 }
 
 void loop() {
+  int potValue = analogRead(potPin);
   // map the pot range to number of states :
-  state = map(analogRead(sensorPin), sensorMin, sensorMax, 0, numStates);
+  state = map(potValue, sensorMin, sensorMax, 0, numStates);
 
   // do something different depending on the 
   // range value:
@@ -49,7 +53,7 @@ void loop() {
     doState1();
     break;
   case 2:    
-    doState2();
+    doState2(sensorPin);
     break;
   } 
   lastState = state;

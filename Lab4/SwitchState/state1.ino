@@ -8,6 +8,7 @@ void state1Setup() {
   for (int i = 0; i < EEPROMSIZE; i++) {
     value = EEPROM.read(i);
     Serial.print(value);
+    Serial.print(", ");
   }
   Serial.println();
 

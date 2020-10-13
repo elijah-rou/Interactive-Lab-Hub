@@ -1,26 +1,21 @@
-// This borrows code from Examples->EEPROM->eeprom_write
-
-String textarray = "hello cornell tech!";
-int endAddr;
-
-void state2Setup() {
-  digitalWrite(ledPin, LOW);
+void saveData(int sensorPin){
+  // Save read data to EEPROM
   Serial.println("Writing to EEPROM");
-  
-  //if any of the pin settings for the different states differed for the different states, you could change those settings here.
-  endAddr = min(textarray.length(), EEPROMSIZE);
-  for (int i = 0; i < endAddr; i++) {
-    EEPROM.write(i, textarray[i]);
+  //int endAddr = min(sizeof(int), EEPROMSIZE);
+  for(int i=0; i<EEPROMSIZE; i++){
+    //Serial.print("Write at address: ");
+    //Serial.println(i);
+    int sensorValue = analogRead(sensorPin);
+    EEPROM.put(i, sensorValue);
   }
-
-  Serial.println("String committed to EEPROM!");
+  Serial.println("Data committed to EEPROM!");
 }
 
-void state2Loop() {
+void doState2(int sensorPin) {
+  // Check last state and save data
+  digitalWrite(ledPin, LOW);
+  if (lastState != 2) {
+    saveData(sensorPin);
+  }
   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-}
-
-void doState2() {
-  if (lastState != 2) state2Setup();
-  state2Loop();
 }
