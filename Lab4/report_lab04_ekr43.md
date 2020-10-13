@@ -6,7 +6,6 @@
 0 to 1023.
 **b. How many bits of resolution does the analog to digital converter (ADC) on the Arduino have**
 7-bit resolution.
-## Part B. RGB LED
 
 ## Part C. Resistance & Voltage Varying Sensors 
 One of the useful aspects of the Arduino is the multitude of analog input pins. We'll explore this more now.
@@ -44,6 +43,8 @@ Flex - 2 10KOhm resistors in series (20KOhms)
 Flex - Linear
 
 Control the colors of the LED using the above sensors ( including FSR )
+Flex: `part_c_flex.MOV`
+FSR: `part_c_fsr.MOV`
 
 ## Part D. I2C Sensors 
 
@@ -74,8 +75,10 @@ Use `EEPROM.put(data)` combined with an increment of `sizeof(data)`.
 ### 2. Design your logger
  
 **a. Turn in a copy of your final state diagram.**
+![FSM for logger](media/part_e2.jpg)
 
 
 ## Part G. Create your own data logger!
  
 **a. Record and upload a short demo video of your logger in action.**
+See `media/part_g.MOV`.
