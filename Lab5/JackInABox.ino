@@ -10,10 +10,10 @@
 #include <Servo.h> 
 
 #define servoPin  10
-#define switchPin 2
+#define switchPin A3
 
-#define closePos  10
-#define openPos   110
+#define closePos  180 
+#define openPos   95
 
 Servo servo;
 int switchState;
@@ -37,27 +37,30 @@ void ToggleSwitch(int switchState)
 
 void setup()
 {
-  //Serial.begin(9600);
-  //Serial.println("Useless Box Lab 5");
-  pinMode(5,OUTPUT);
-  digitalWrite(5,HIGH);
-  // start with the box closed and the switch in the off postion
+  Serial.begin(9600);
+  Serial.println("Useless Box Lab 5");
+  pinMode(switchPin, INPUT);
   switchState = LOW;
   previousSwitchState = LOW;
 
   // connect to our servo and make sure it is in the closed position
   servo.attach(servoPin);
   servo.write(closePos);
-
-  // we should probably pay attention to the switch
-  pinMode(switchPin, INPUT); 
 }
 
-void loop()
-{ 
-  int switchState = digitalRead(switchPin);
-  if (switchState != previousSwitchState)
+void loop(){ 
+  int fsrValue = analogRead(switchPin);
+  Serial.println(fsrValue);
+  if(fsrValue > 200){
+    switchState = HIGH;
+  }
+  else{
+    switchState = LOW;
+  }
+
+  if (switchState != previousSwitchState){
     ToggleSwitch(switchState);
+  }
 
   delay(20);
 }
