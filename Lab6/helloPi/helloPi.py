@@ -14,14 +14,14 @@ from subprocess import call
 warnings.simplefilter('ignore', category=PinNonPhysical)
 
 
-ser=serial.Serial("/dev/ttyUSB0",9600)  #change ACM number as found from ls /dev/tty/ACM*
+ser=serial.Serial("/dev/ttyACM0",9600)  #change ACM number as found from ls /dev/tty/ACM*
 ser.baudrate=9600
 actled = LED(29)
 
 
 while True:
    try:
-      message=ser.readline()
+      message=ser.readline().decode('utf-8')
       print(message)
       actled.blink()
       time.sleep(1.25)

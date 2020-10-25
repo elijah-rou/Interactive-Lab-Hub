@@ -1,0 +1,205 @@
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : "pi likes"
+}
+{
+  "partial" : "pi likes"
+}
+{
+  "partial" : "pi likes"
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : "eddie"
+}
+{
+  "partial" : "eddie"
+}
+{
+  "partial" : "eddie"
+}
+{
+  "partial" : "eddie likes"
+}
+{
+  "partial" : "eddie likes"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "partial" : "eddie likes pi"
+}
+{
+  "result" : [{
+      "conf" : 1.000000,
+      "end" : 2.970000,
+      "start" : 2.700000,
+      "word" : "eddie"
+    }, {
+      "conf" : 1.000000,
+      "end" : 3.240000,
+      "start" : 2.970000,
+      "word" : "likes"
+    }, {
+      "conf" : 1.000000,
+      "end" : 3.660000,
+      "start" : 3.240000,
+      "word" : "pi"
+    }],
+  "text" : "eddie likes pi"
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "partial" : ""
+}
+{
+  "result" : [{
+      "conf" : 0.985111,
+      "end" : 4.620000,
+      "start" : 4.560000,
+      "word" : "pi"
+    }],
+  "text" : "pi"
+}
