@@ -239,7 +239,7 @@ With `HelloArduinio`, the arduino will just blink if it receives a message. Howe
 ## Your own voice agent 
 
 **Record someone trying out your design**
-
+See `media/anakin_no.MOV`
 **Submit your code to Github**
-
+See `anakin_no/`
 
