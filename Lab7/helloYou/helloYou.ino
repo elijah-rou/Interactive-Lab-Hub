@@ -9,6 +9,9 @@ int buttonState;
 void setup() {
   Serial.begin(9600);
   pinMode(button, INPUT);
+  pinMode(redLed, OUTPUT);
+  pinMode(greenLed, OUTPUT);
+  pinMode(blueLed, OUTPUT);
 }
 
 void setColor(int red, int green, int blue){
