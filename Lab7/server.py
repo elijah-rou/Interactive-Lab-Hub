@@ -1,19 +1,3 @@
-"""
-server.py
-
-Author: Nikolas Martelaro (nmartelaro@gmail.com) & Wendy Ju (wendyju@cornell.edu)
-
-Purpose: This is the server that runs the web application and the serial
-communication with the microcontroller. Messaging to the microcontroller is done
-using serial. Messaging to the webapp is done using SocketIO.
-
-Usage: python3 server.py
-
-Notes: You will need to specify what port you would like the web app to be
-served from. You will also need to include the serial port address as a command
-line input.
-"""
-
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 import serial
@@ -105,10 +89,6 @@ def main():
     socketio.run(app)
     try:
         while True:
-            #reading = ser.readline().decode().strip()
-            #print(reading)
-            #client.publish("there/", reading)
-            #ser.flushInput()
             time.sleep(1)
     except KeyboardInterrupt:
         ser.close()
