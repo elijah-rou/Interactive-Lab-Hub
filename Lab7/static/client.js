@@ -1,11 +1,19 @@
 var socket = io();
 
-// send out LedOn message over socket
-function ledON() {
-    socket.emit('ledON');
-	console.log('ledON');
+function ledRED() {
+    socket.emit('ledRED');
+	console.log('ledRED');
 }
 
+function ledBLUE() {
+    socket.emit('ledBLUE');
+	console.log('ledBLUE');
+}
+
+function ledGREEN() {
+    socket.emit('ledGREEN');
+	console.log('ledGREEN');
+}
 // send out ledOFF message over socket
 function ledOFF() {
     socket.emit('ledOFF');

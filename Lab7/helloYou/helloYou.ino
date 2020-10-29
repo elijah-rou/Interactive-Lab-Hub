@@ -1,4 +1,6 @@
-int led = 13; // led that we will toggle
+int redLed = 6;
+int greenLed = 5;
+int blueLed = 3;
 char inChar;  // character we will use for messages from the RPi
 
 int button = 11;
@@ -6,8 +8,13 @@ int buttonState;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(led, OUTPUT);
   pinMode(button, INPUT);
+}
+
+void setColor(int red, int green, int blue){
+    analogWrite(redLed, 255-red);
+    analogWrite(greenLed, 255-green);
+    analogWrite(blueLed, 255-blue);  
 }
 
 void loop() {
@@ -17,11 +24,19 @@ void loop() {
   }
 
   // if we get a 'H', turn the LED on, else turn it off
-  if(inChar == 'H'){
-    digitalWrite(led, HIGH);
+  if(inChar == 'R'){
+    setColor(255, 0, 0);
   }
-  else{
-    digitalWrite(led, LOW);
+  
+  else if(inChar == 'B'){
+    setColor(0, 0, 255);
+  }
+  else if(inChar == 'G'){
+    setColor(0, 255, 0);
+  }
+  
+  else if (inChar == 'L'){
+    setColor(0, 0, 0);
   }
 
   // Button event checker - if pressed, send message to RPi
