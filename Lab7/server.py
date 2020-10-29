@@ -1,25 +1,53 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
 from flask_socketio import SocketIO, emit
 import serial
 import time
-from threading import Thread
+from threading import Thread, Lock
 import paho.mqtt.client as mqtt
-
-# Arduino communication
-ser = serial.Serial('/dev/ttyUSB0', 9600)
-def read_from_port(ser):
-	while True:
-		reading = ser.readline().decode().strip()
-		print(reading)
-		socketio.emit('server-msg', reading)
-
-thread = Thread(target=read_from_port, args=[ser])
-thread.start()
+from imutils.video import VideoStream
+from imutils import resize
+import cv2
 
 # Flask Webserver
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
+
+# Arduino communication
+ser = serial.Serial('/dev/ttyUSB0', 9600)
+def read_from_port(ser):
+    while True:
+        reading = ser.readline().decode().strip()
+        print(reading)
+        socketio.emit('server-msg', reading)
+
+thread = Thread(target=read_from_port, args=[ser])
+thread.start()
+
+# Video Stream
+outputFrame = None
+lock = Lock()
+vs = VideoStream(src=0).start()
+time.sleep(2)
+
+def generate():
+    # grab global references to the output frame and lock variables
+    global outputFrame, lock
+    # loop over frames from the output stream
+    while True:
+        # wait until the lock is acquired
+        with lock:
+            # check if the output frame is available, otherwise skip
+            # the iteration of the loop
+            if outputFrame is None:
+                continue
+            # encode the frame in JPEG format
+            (flag, encodedImage) = cv2.imencode(".jpg", outputFrame)
+            # ensure the frame was successfully encoded
+            if not flag:
+                continue
+        # yield the output frame in the byte format
+        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + bytearray(encodedImage) + b'\r\n')
 
 # MQTT client
 client = mqtt.Client()
@@ -53,6 +81,13 @@ client.loop_start()
 def index():
     return render_template('index.html')
 
+@app.route("/video_feed")
+def video_feed():
+	# return the response generated along with the specific media
+	# type (mime type)
+	return Response(generate(),
+		mimetype = "multipart/x-mixed-replace; boundary=frame")
+
 @socketio.on('connect')
 def test_connect():
     print('Client connected')
@@ -84,7 +119,18 @@ def led_off():
     print("Turn the LED off!")
     client.publish(topic, "off")
 
+def stream_video():
+    global outputFrame, vs, lock
+    while True:
+        frame = vs.read()
+        with lock:
+            outputFrame = resize(frame, width=400).copy()
+
+
 def main():
+    t = Thread(target=stream_video)
+    t.daemon = True
+    t.start()
     app.run(host='0.0.0.0', threaded=True)
     socketio.run(app)
     try:
@@ -94,6 +140,7 @@ def main():
         ser.close()
         client.disconnect()
         client.loop_stop()
+        vs.stop()
         print ("done")
 
 
