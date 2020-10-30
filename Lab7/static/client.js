@@ -3,6 +3,7 @@ var socket = io();
 function ledRED() {
     socket.emit('ledRED');
 	console.log('ledRED');
+
 }
 
 function ledBLUE() {
@@ -18,7 +19,9 @@ function ledGREEN() {
 function ledOFF() {
     socket.emit('ledOFF');
 	console.log('ledOFF');
-
+    var doorbell = document.getElementById("doorbell");
+    doorbell.loop = false;
+    doorbell.play();
 }
 
 // read the data from the message that the server sent and change the
