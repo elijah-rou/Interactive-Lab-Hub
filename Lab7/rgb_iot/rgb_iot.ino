@@ -12,6 +12,7 @@ void setup() {
   pinMode(redLed, OUTPUT);
   pinMode(greenLed, OUTPUT);
   pinMode(blueLed, OUTPUT);
+  setColor(0, 0, 0);
 }
 
 void setColor(int red, int green, int blue){

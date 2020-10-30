@@ -7,14 +7,23 @@ import paho.mqtt.client as mqtt
 from imutils.video import VideoStream
 from imutils import resize
 import cv2
+import argparse
 
 # Flask Webserver
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
+# Arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-u", "--usb", type=str, help="usb serial of arduino", default="ttyUSB0")
+ap.add_argument("-c", "--camera", type=int, help="camera device", default=0)
+args = vars(ap.parse_args())
+usb = args["usb"]
+camera = args["camera"]
+
 # Arduino communication
-ser = serial.Serial('/dev/ttyUSB0', 9600)
+ser = serial.Serial(f'/dev/{usb}', 9600)
 def read_from_port(ser):
     while True:
         reading = ser.readline().decode().strip()
@@ -27,7 +36,7 @@ thread.start()
 # Video Stream
 outputFrame = None
 lock = Lock()
-vs = VideoStream(src=0).start()
+vs = VideoStream(src=camera).start()
 time.sleep(2)
 
 def generate():
@@ -128,6 +137,7 @@ def stream_video():
 
 
 def main():
+
     t = Thread(target=stream_video)
     t.daemon = True
     t.start()
