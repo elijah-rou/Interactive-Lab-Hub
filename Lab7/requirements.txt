@@ -1,0 +1,8 @@
+pyserial
+flask
+socketio
+flask_socketio
+paho-mqtt
+imutils
+argparse
+opencv-python

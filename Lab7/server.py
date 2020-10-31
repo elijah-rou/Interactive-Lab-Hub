@@ -137,7 +137,6 @@ def stream_video():
 
 
 def main():
-
     t = Thread(target=stream_video)
     t.daemon = True
     t.start()
